@@ -48,12 +48,14 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:0 16px 26px}
 </main>
 <footer>Grupo Mercúrio · Plantão Técnico</footer>
 <script>
+
 const DEFAULT_PEOPLE = [
- {name:"Técnico 1",phone:"(00) 00000-0000",email:"tecnico1@exemplo.com",photo:""},
- {name:"Técnico 2",phone:"(00) 00000-0000",email:"tecnico2@exemplo.com",photo:""},
- {name:"Técnico 3",phone:"(00) 00000-0000",email:"tecnico3@exemplo.com",photo:""},
- {name:"Técnico 4",phone:"(00) 00000-0000",email:"tecnico4@exemplo.com",photo:""}
+ {name:"Rikelve",phone:"(19) 97413-4354",email:"",photo:"https://ibb.co/t0Cqpzc"},
+ {name:"Allan Quinelli",phone:"199813841634",email:"",photo:"https://encouraging-peach-akkp5sea.edgeone.dev/"},
+ {name:"Victor Rafael",phone:"(19) 97408-3388",email:"vfafel@gmail.com",photo:"https://then-magenta-mzaaqu3i.edgeone.dev/"},
+ {name:"Vinicius Alves",phone:"(19) 97410-1017",email:"",photo:"https://due-yellow-pvhvxqkh.edgeone.dev/"}
 ];
+
 const today = new Date();
 const monday = new Date(today); monday.setHours(0,0,0,0); monday.setDate(monday.getDate()-((monday.getDay()+6)%7));
 const dateStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
