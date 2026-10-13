@@ -66,10 +66,18 @@ const DEFAULT_PEOPLE = [
 ];
 
 const TI_PEOPLE = [
- {name:"Victor TI",phone:"(19) 97404-5077"},
- {name:"João TI",phone:"(19) 98138-1756"}
+ const TI_PEOPLE = [
+ {
+  name:"Victor TI",
+  phone:"(19) 97404-5077",
+  photo:"fotos/victor-ti.jpg"
+ },
+ {
+  name:"João TI",
+  phone:"(19) 98138-1756",
+  photo:"fotos/joao-ti.jpg"
+ }
 ];
-
 const today = new Date();
 const monday = new Date(today); monday.setHours(0,0,0,0); monday.setDate(monday.getDate()-((monday.getDay()+6)%7));
 const dateStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -110,9 +118,14 @@ function render(){
  const tiPerson = TI_PEOPLE[idx % 2];
  const nextTi = TI_PEOPLE[(idx + 1) % 2];
 
- document.getElementById("currentTI").innerHTML = `
+document.getElementById("currentTI").innerHTML = `
  <div class="card">
-   <div style="font-size:36px">💻</div>
+   <img
+     src="${safe(tiPerson.photo)}"
+     alt="Foto de ${safe(tiPerson.name)}"
+     style="width:80px;height:80px;border-radius:50%;object-fit:cover"
+     onerror="this.style.visibility='hidden'"
+   >
    <div>
      <span class="pill">● Plantonista de TI</span>
      <h3>${safe(tiPerson.name)}</h3>
@@ -120,7 +133,6 @@ function render(){
      <p>${dateRange(thisStart)}</p>
    </div>
  </div>`;
-
  document.getElementById("nextTI").textContent =
    `Próxima semana: ${nextTi.name} · ${nextTi.phone}`;
 
