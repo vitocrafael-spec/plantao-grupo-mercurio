@@ -67,7 +67,7 @@ function safe(s){return String(s||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 function parseDate(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,0,0,0,0);}
 function fmt(d){return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"});}
 function dateRange(start){const end=new Date(start);end.setDate(end.getDate()+7);return `${fmt(start)} até ${fmt(end)}`;}
-```javascript
+
 function avatarUrl(person){
   return person.photo
     ? person.photo
