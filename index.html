@@ -83,18 +83,36 @@ const DEFAULT_PEOPLE = [
 ];
 
 
- const TI_PEOPLE = [
- {
-  name:"Victor TI",
-  phone:"(19) 97404-5077",
-  photo:"fotos/victor%20ti.png"
- },
- {
-  name:"João TI",
-  phone:"(19) 98138-1756",
-  photo:"fotos/Joao%20ti.png"
- }
+
+const DEFAULT_TI_PEOPLE = [
+  {
+    name: "Victor TI",
+    phone: "(19) 97404-5077",
+    email: "",
+    photo: "fotos/victor%20ti.png"
+  },
+  {
+    name: "João TI",
+    phone: "(19) 98138-1756",
+    email: "",
+    photo: "fotos/Joao%20ti.png"
+  }
 ];
+
+let tiPeople;
+
+try {
+  tiPeople = JSON.parse(
+    localStorage.getItem("gmPlantaoTI") || "null"
+  );
+} catch (e) {
+  tiPeople = null;
+}
+
+if (!Array.isArray(tiPeople) || tiPeople.length !== 2) {
+  tiPeople = DEFAULT_TI_PEOPLE.map(p => ({ ...p }));
+}
+
 const today = new Date();
 const monday = new Date(today); monday.setHours(0,0,0,0); monday.setDate(monday.getDate()-((monday.getDay()+6)%7));
 const dateStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
@@ -132,8 +150,9 @@ function render(){
  const cards=[];
  for(let i=1;i<=3;i++){const n=idx+i;const p=people[((n%people.length)+people.length)%people.length];const s=new Date(start);s.setDate(s.getDate()+n*7);const e=new Date(s);e.setDate(e.getDate()+7);cards.push(`<article class="card"><img src="${safe(avatarUrl(p))}" alt="" onerror="this.style.visibility='hidden'"><div><h3>${safe(p.name)}</h3><p>${safe(p.phone||"Telefone não cadastrado")}</p><p>${safe(p.email||"E-mail não cadastrado")}</p><div class="week">${fmt(s)} → ${fmt(e)}</div></div></article>`)}
  document.getElementById("upcoming").innerHTML=cards.join("");
- const tiPerson = TI_PEOPLE[idx % 2];
- const nextTi = TI_PEOPLE[(idx + 1) % 2];
+
+const tiPerson = tiPeople[idx % 2];
+const nextTi = tiPeople[(idx + 1) % 2];
 
 document.getElementById("currentTI").innerHTML = `
  <div class="card">
@@ -163,6 +182,79 @@ function renderForms(){
  <div class="field"><label for="photo${i}">Link da foto (URL)</label><input id="photo${i}" value="${safe(p.photo)}" placeholder="https://..."></div>
  </form></div>`).join("");
 }
+
+function renderTIForms() {
+  document.getElementById("tiPeopleForms").innerHTML =
+    tiPeople.map((p, i) => `
+      <div class="person-form">
+        <div class="person-title">
+          <strong>Técnico de TI ${i + 1}</strong>
+        </div>
+        <form>
+          <div class="field">
+            <label for="tiName${i}">Nome</label>
+            <input id="tiName${i}" value="${safe(p.name)}" required>
+          </div>
+          <div class="field">
+            <label for="tiPhone${i}">Telefone</label>
+            <input id="tiPhone${i}" type="tel" value="${safe(p.phone)}">
+          </div>
+          <div class="field full">
+            <label for="tiEmail${i}">Gmail</label>
+            <input id="tiEmail${i}" type="email" value="${safe(p.email || "")}" placeholder="tecnico@gmail.com">
+          </div>
+          <div class="field full">
+            <label for="tiPhoto${i}">Caminho ou link da foto</label>
+            <input id="tiPhoto${i}" value="${safe(p.photo)}" placeholder="fotos/nome-da-foto.png">
+          </div>
+        </form>
+      </div>
+    `).join("");
+}
+
+document.getElementById("toggleTIConfig").addEventListener("click", () => {
+  const el = document.getElementById("tiConfig");
+  el.hidden = !el.hidden;
+
+  document.getElementById("toggleTIConfig").textContent =
+    el.hidden ? "Editar cadastro de TI" : "Fechar edição de TI";
+
+  if (!el.hidden) renderTIForms();
+});
+
+document.getElementById("saveTI").addEventListener("click", () => {
+  const updated = tiPeople.map((p, i) => ({
+    name: document.getElementById("tiName" + i).value.trim(),
+    phone: document.getElementById("tiPhone" + i).value.trim(),
+    email: document.getElementById("tiEmail" + i).value.trim(),
+    photo: document.getElementById("tiPhoto" + i).value.trim()
+  }));
+
+  if (updated.some(p => !p.name)) {
+    alert("Preencha o nome dos dois técnicos de TI.");
+    return;
+  }
+
+  if (updated.some(p => p.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email))) {
+    alert("Confira os endereços de Gmail informados.");
+    return;
+  }
+
+  tiPeople = updated;
+  localStorage.setItem("gmPlantaoTI", JSON.stringify(tiPeople));
+
+  render();
+  alert("Cadastro de TI salvo neste navegador.");
+});
+
+document.getElementById("resetTI").addEventListener("click", () => {
+  if (confirm("Restaurar os dados originais dos técnicos de TI?")) {
+    tiPeople = DEFAULT_TI_PEOPLE.map(p => ({ ...p }));
+    localStorage.setItem("gmPlantaoTI", JSON.stringify(tiPeople));
+    renderTIForms();
+    render();
+  }
+});
 document.getElementById("toggleConfig").addEventListener("click",()=>{const el=document.getElementById("config");el.hidden=!el.hidden;document.getElementById("toggleConfig").textContent=el.hidden?"Editar cadastro":"Fechar edição";if(!el.hidden)renderForms();});
 document.getElementById("save").addEventListener("click",()=>{
  const startDate=document.getElementById("startDate").value;
