@@ -73,7 +73,7 @@ function avatarUrl(person){
     ? person.photo
     : `https://ui-avatars.com/api/?name=${encodeURIComponent(person.name||"Técnico")}&background=e6f0f8&color=174e78&size=256`;
 }
-```
+
 function activeIndex(){
  const start=parseDate(state.startDate); const now=new Date(); now.setHours(0,0,0,0);
  return Math.floor((now-start)/(7*24*60*60*1000));
