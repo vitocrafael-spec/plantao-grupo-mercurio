@@ -35,10 +35,27 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:0 16px 26px}
 </section><section class="section panel">
  <div class="section-head">
   <div>
-   <h2>Plantão de TI</h2>
-   <p class="muted">Revezamento semanal</p>
+   
+<div class="section-head">
+  <div>
+    <h2>Plantão de TI</h2>
+    <p class="muted">Revezamento semanal</p>
+    
+<div id="tiConfig" hidden>
+  <div id="tiPeopleForms"></div>
+  <div class="actions" style="margin-top:18px">
+    <button class="btn" id="saveTI" type="button">Salvar cadastro de TI</button>
+    <button class="btn secondary" id="resetTI" type="button">Restaurar dados de TI</button>
   </div>
- </div>
+  <p class="notice">O cadastro será salvo neste navegador.</p>
+</div>
+
+  </div>
+  <button class="btn secondary" id="toggleTIConfig" type="button">
+    Editar cadastro de TI
+  </button>
+</div>
+
  <div id="currentTI"></div>
  <p class="notice" id="nextTI"></p>
 </section>
