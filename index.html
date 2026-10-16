@@ -229,6 +229,25 @@ main {
   margin-top: 8px;
 }
 
+.auvo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 7px 0 2px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  background: #E8DFFF;
+  color: #351078 !important;
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none !important;
+  border: 1px solid #D9C9FF;
+}
+.auvo-link:hover {
+  background: #D9C9FF;
+  text-decoration: none !important;
+}
+
 .panel {
   padding: 18px;
 }
@@ -770,6 +789,9 @@ function render() {
             }
           </span>
         </div>
+        <a class="auvo-link" href="https://app.auvo.com.br/" target="_blank" rel="noopener noreferrer">
+          ↗ Acessar Auvo
+        </a>
       </div>
     </div>
   `;
@@ -808,6 +830,9 @@ function render() {
           <div class="week">
             ${formatDate(s)} → ${formatDate(e)}
           </div>
+          <a class="auvo-link" href="https://app.auvo.com.br/" target="_blank" rel="noopener noreferrer">
+            ↗ Acessar Auvo
+          </a>
         </div>
       </article>
     `);
@@ -840,6 +865,9 @@ function render() {
             : "E-mail não cadastrado"
         }</p>
         <p>${dateRange(thisStart)}</p>
+        <a class="auvo-link" href="https://app.auvo.com.br/" target="_blank" rel="noopener noreferrer">
+          ↗ Acessar Auvo
+        </a>
       </div>
     </div>
   `;
