@@ -1,18 +1,227 @@
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#351078">
+<title>Plantão Técnico | Grupo Mercúrio</title>
+<style>
+:root{--bg:#F3EEFF;--text:#321568;--muted:#746493;--navy:#351078;--blue:#5121A8;--line:#D9C9FF;--surface:#FAF8FF;--purple-light:#E8DFFF}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
+header{background:linear-gradient(120deg,#351078,#7028B8,#8B5BE0);color:white;padding:24px 18px 28px}
+.wrap{max-width:1450px;margin:auto}.brand{display:flex;align-items:center;gap:16px}
+.logo{width:54px;height:54px;border-radius:14px;background:#fff;padding:5px;object-fit:contain}
+h1{font-size:clamp(24px,4vw,34px);margin:0}.sub{color:#E8DCFF;margin:7px 0 0}
+main{max-width:1450px;margin:-18px auto 40px;padding:0 20px}
+.hero,.panel,.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px #5121A810}
+.hero{padding:22px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--blue);font-weight:800}
+.current{display:grid;grid-template-columns:110px minmax(0,1fr);gap:20px;align-items:center;margin-top:10px}
+.avatar{width:110px;height:110px;border-radius:50%;object-fit:cover;background:#EDE4FF;border:5px solid #7136CC;padding:2px}
+.current h2{font-size:clamp(23px,4vw,32px);margin:8px 0;color:#351078;overflow-wrap:anywhere}
+.dates{color:var(--muted);margin-bottom:12px}
+.pill{display:inline-flex;align-items:center;gap:7px;background:#E8DFFF;color:#5121A8;padding:7px 11px;border-radius:999px;font-size:13px;font-weight:750}
+.contact{display:flex;flex-wrap:wrap;gap:12px 18px;margin-top:10px;color:#574477;font-size:14px;overflow-wrap:anywhere}
+.contact a,.card a{color:inherit;text-decoration:none}.contact a:hover,.card a:hover{text-decoration:underline}
+.section{margin-top:24px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.section h2{font-size:20px;margin:0}.muted,.notice{color:var(--muted)}.muted{font-size:13px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{padding:16px;display:flex;gap:12px;align-items:center;min-width:0;overflow-wrap:anywhere}
+.card img{width:58px;height:58px;flex:0 0 58px;border-radius:50%;object-fit:cover;background:#EDE4FF;border:3px solid #7136CC}
+.card h3{font-size:15px;margin:0 0 5px;overflow-wrap:anywhere;color:#351078}
+.card p{font-size:12px;color:var(--muted);margin:5px 0;overflow-wrap:anywhere}
+.card .week{font-size:11px;color:var(--blue);font-weight:800;margin-top:8px}
+.panel{padding:18px}.btn{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-size:13px;font-weight:750;cursor:pointer;background:#5121A8;color:white;transition:background .2s,transform .2s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.btn:hover{background:#351078}.btn:active{transform:scale(.98)}.btn.secondary{background:#E8DFFF;color:#351078}.btn.secondary:hover{background:#D9C9FF}.btn.danger{background:#FFF0F0;color:#A32B2B}
+.actions{display:flex;flex-wrap:wrap;gap:9px}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+label{font-size:13px;font-weight:750;display:block;margin-bottom:6px}
+input{width:100%;min-width:0;padding:11px 12px;border:1px solid #D5C6EF;border-radius:9px;font:inherit;font-size:14px;background:#fff;color:var(--text)}
+input:focus{outline:2px solid #B69AEF;border-color:var(--blue)}
+.field.full{grid-column:1/-1}.person-form{border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.person-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.notice{font-size:13px;line-height:1.5;margin-top:14px}.empty{padding:22px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:14px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:0 16px 26px}
+[hidden]{display:none!important}
+/* Tela de login */
+.login-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(135deg,#351078,#7028B8,#8B5BE0)}
+.login-box{width:min(100%,420px);background:#FAF8FF;border:1px solid #D9C9FF;border-radius:22px;padding:30px;box-shadow:0 24px 70px #1f084a66}
+.login-brand{display:flex;align-items:center;gap:13px;margin-bottom:24px}
+.login-brand img{width:58px;height:58px;object-fit:contain;background:white;border-radius:14px;padding:5px}
+.login-box h2{margin:0;color:#351078;font-size:25px}.login-box .muted{margin:7px 0 22px}
+.login-box form{display:grid;grid-template-columns:1fr;gap:14px}
+.login-box .btn{width:100%;margin-top:4px;padding:13px}
+.login-error{color:#A32B2B;background:#FFF0F0;border-radius:9px;padding:10px;font-size:13px;margin:0}
+.top-actions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin:0 0 18px}
+@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){
+ header{padding:20px 15px 26px}.wrap{width:100%}.brand{gap:12px}.logo{width:48px;height:48px}
+ main{padding:0 12px}.cards{grid-template-columns:1fr}.current{grid-template-columns:80px minmax(0,1fr);gap:14px}.avatar{width:80px;height:80px}
+ .contact{display:grid;gap:7px}form{grid-template-columns:1fr}.field.full{grid-column:auto}
+ .section-head{align-items:flex-start;flex-direction:column}.hero{padding:17px}.panel{padding:15px}
+ .actions .btn{flex:1 1 auto}.login-box{padding:23px}
+}
+</style>
+</head>
+<body>
+<div id="loginOverlay" class="login-overlay">
+  <section class="login-box" aria-labelledby="loginTitle">
+    <div class="login-brand">
+      <img src="fotos/logo.png" alt="Logo Grupo Mercúrio" onerror="this.style.visibility='hidden'">
+      <div><h2 id="loginTitle">Plantão Técnico</h2><p class="muted">Grupo Mercúrio · Acesso restrito</p></div>
+    </div>
+    <form id="loginForm">
+      <div><label for="loginUser">Usuário</label><input id="loginUser" name="username" autocomplete="username" required></div>
+      <div><label for="loginPassword">Senha</label><input id="loginPassword" name="password" type="password" autocomplete="current-password" required></div>
+      <p id="loginError" class="login-error" hidden>Usuário ou senha incorretos. Tente novamente.</p>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </section>
+</div>
+<header>
+  <div class="wrap"><div class="brand">
+    <img class="logo" src="fotos/logo.png" alt="Logo Grupo Mercúrio" onerror="this.style.visibility='hidden'">
+    <div><h1>Plantão Técnico</h1><p class="sub">Grupo Mercúrio · Escala semanal</p></div>
+  </div></div>
+</header>
+<main>
+  <div class="top-actions">
+    <a class="btn" href="https://app.auvo.com.br" target="_blank" rel="noopener noreferrer">Abrir Auvo ↗</a>
+    <button class="btn secondary" id="logoutButton" type="button" hidden>Sair</button>
+  </div>
+  <section class="hero"><div class="eyebrow">Plantão da semana</div><div id="current"></div></section>
+  <section class="section">
+    <div class="section-head"><h2>Próximos plantões</h2><span class="muted">Revezamento entre 4 técnicos</span></div>
+    <div class="cards" id="upcoming"></div>
+  </section>
   <section class="section panel">
-    <div class="section-head">
-      <div>
-        <h2>Acesso ao Auvo</h2>
-        <p class="muted">Acesse o sistema de gestão de serviços.</p>
-      </div>
-      <a
-        class="btn"
-        href="https://app.auvo.com.br"
-        target="_blank"
-        rel="noopener noreferrer"
-        style="text-decoration:none; display:inline-block;"
-      >
-        Abrir Auvo ↗
-      </a>
+    <div class="section-head"><div><h2>Plantão de TI</h2><p class="muted">Revezamento semanal</p></div><button class="btn secondary" id="toggleTIConfig" type="button">Editar cadastro de TI</button></div>
+    <div id="currentTI"></div><p class="notice" id="nextTI"></p>
+    <div id="tiConfig" hidden><div id="tiPeopleForms"></div>
+      <div class="actions" style="margin-top:18px"><button class="btn" id="saveTI" type="button">Salvar cadastro de TI</button><button class="btn secondary" id="resetTI" type="button">Restaurar dados de TI</button></div>
+      <p class="notice">O cadastro será salvo neste navegador.</p>
     </div>
   </section>
+  <section class="section panel">
+    <div class="section-head"><div><h2>Configurar escala</h2><p class="muted">Cadastre os quatro técnicos e defina a segunda-feira inicial.</p></div><button class="btn secondary" id="toggleConfig" type="button">Editar cadastro</button></div>
+    <div id="config" hidden>
+      <div class="field"><label for="startDate">Data da primeira segunda-feira da escala</label><input type="date" id="startDate" required></div>
+      <p class="notice">A rotação segue a ordem dos técnicos abaixo. Cada plantão vai de segunda a segunda. Fotos podem ser adicionadas por caminho local ou URL; deixe em branco para usar um avatar padrão.</p>
+      <div id="peopleForms"></div>
+      <div class="actions" style="margin-top:18px"><button class="btn" id="save" type="button">Salvar escala</button><button class="btn secondary" id="reset" type="button">Restaurar exemplo</button></div>
+      <p class="notice">Os dados ficam salvos neste navegador. Para que todos os técnicos vejam os mesmos dados em qualquer aparelho, será necessário conectar o sistema a uma base de dados.</p>
+    </div>
+  </section>
+</main>
+<footer>Grupo Mercúrio · Plantão Técnico</footer>
+<script>
+"use strict";
+const LOGIN_SESSION_KEY="gmPlantaoLogin";
+const loginOverlay=document.getElementById("loginOverlay");
+const loginForm=document.getElementById("loginForm");
+const loginError=document.getElementById("loginError");
+const logoutButton=document.getElementById("logoutButton");
+function updateLoginScreen(){
+  const authenticated=sessionStorage.getItem(LOGIN_SESSION_KEY)==="true";
+  loginOverlay.hidden=authenticated;
+  logoutButton.hidden=!authenticated;
+}
+loginForm.addEventListener("submit",function(event){
+  event.preventDefault();
+  const username=document.getElementById("loginUser").value.trim();
+  const password=document.getElementById("loginPassword").value;
+  if(username==="admin"&&password==="admin"){
+    sessionStorage.setItem(LOGIN_SESSION_KEY,"true");
+    loginError.hidden=true;loginForm.reset();updateLoginScreen();
+  }else{loginError.hidden=false;}
+});
+logoutButton.addEventListener("click",function(){
+  sessionStorage.removeItem(LOGIN_SESSION_KEY);updateLoginScreen();
+});
+updateLoginScreen();
+
+const DEFAULT_PEOPLE=[
+{name:"Rikelve",phone:"(19) 97413-4354",email:"",photo:"fotos/rikelve.png"},
+{name:"Allan Quinelli",phone:"(19) 98138-1634",email:"",photo:"fotos/Allan.png"},
+{name:"Victor Rafael",phone:"(19) 97408-3388",email:"vfafel@gmail.com",photo:"fotos/Victor.png"},
+{name:"Vinicius Alves",phone:"(19) 97410-1017",email:"",photo:"fotos/vinicius .png"}
+];
+const DEFAULT_TI_PEOPLE=[
+{name:"Victor TI",phone:"(19) 97404-5077",email:"ti4pd@grupomercurio.com.br",photo:"fotos/victor%20ti.png"},
+{name:"João TI",phone:"(19) 98138-1756",email:"ti2pd@grupomercurio.com.br",photo:"fotos/Joao%20ti.png"}
+];
+const STORAGE_KEY="gmPlantaoV2",OLD_STORAGE_KEY="gmPlantao",TI_STORAGE_KEY="gmPlantaoTI";
+function clonePeople(people){return people.map(person=>({...person}));}
+function loadJSON(key){try{const value=localStorage.getItem(key);return value?JSON.parse(value):null;}catch(error){console.warn("Não foi possível carregar:",key,error);return null;}}
+function saveJSON(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch(error){alert("Não foi possível salvar os dados neste navegador. Verifique o armazenamento disponível.");console.error(error);return false;}}
+function validPeople(people,count){return Array.isArray(people)&&people.length===count&&people.every(p=>p&&typeof p.name==="string"&&typeof p.phone==="string"&&typeof p.email==="string"&&typeof p.photo==="string");}
+function getLocalDateString(date){return [date.getFullYear(),String(date.getMonth()+1).padStart(2,"0"),String(date.getDate()).padStart(2,"0")].join("-");}
+function getCurrentMonday(){const date=new Date();date.setHours(0,0,0,0);date.setDate(date.getDate()-((date.getDay()+6)%7));return date;}
+function parseDate(value){const parts=value.split("-").map(Number);return new Date(parts[0],parts[1]-1,parts[2],0,0,0,0);}
+function formatDate(date){return date.toLocaleDateString("pt-BR",{day:"2-digit",month:"long",year:"numeric"});}
+function dateRange(start){const end=new Date(start);end.setDate(end.getDate()+7);return formatDate(start)+" até "+formatDate(end);}
+function escapeHTML(value){return String(value??"").replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));}
+function avatarUrl(person){if(person.photo&&person.photo.trim())return person.photo.trim();return "https://ui-avatars.com/api/?name="+encodeURIComponent(person.name||"Técnico")+"&background=e6dfff&color=351078&size=256";}
+function whatsappUrl(phone){let digits=String(phone||"").replace(/\D/g,"");if(!digits)return "#";if(!digits.startsWith("55")&&(digits.length===10||digits.length===11))digits="55"+digits;return "https://wa.me/"+digits;}
+function gmailUrl(email){return "https://mail.google.com/mail/?view=cm&fs=1&to="+encodeURIComponent(String(email||"").trim());}
+const defaultStart=getLocalDateString(getCurrentMonday());
+let state=loadJSON(STORAGE_KEY);
+if(!state){const oldState=loadJSON(OLD_STORAGE_KEY);if(oldState&&oldState.startDate&&validPeople(oldState.people,4))state=oldState;}
+if(!state||typeof state.startDate!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(state.startDate)||!validPeople(state.people,4)){state={startDate:defaultStart,people:clonePeople(DEFAULT_PEOPLE)};}else{state.people=clonePeople(state.people);}
+let tiPeople=loadJSON(TI_STORAGE_KEY);
+if(!validPeople(tiPeople,2))tiPeople=clonePeople(DEFAULT_TI_PEOPLE);else tiPeople=clonePeople(tiPeople);
+function activeIndex(){const start=parseDate(state.startDate);const now=new Date();now.setHours(0,0,0,0);return Math.floor((now.getTime()-start.getTime())/(7*24*60*60*1000));}
+function render(){
+ const people=state.people,start=parseDate(state.startDate);let idx=activeIndex();if(idx<0)idx=0;
+ const thisStart=new Date(start);thisStart.setDate(thisStart.getDate()+idx*7);
+ const person=people[idx%people.length];
+ document.getElementById("current").innerHTML=`<div class="current">
+ <img class="avatar" src="${escapeHTML(avatarUrl(person))}" alt="Foto de ${escapeHTML(person.name)}" onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=Tecnico&background=e6dfff&color=351078&size=256'">
+ <div><span class="pill">● Plantonista atual</span><h2>${escapeHTML(person.name)}</h2><div class="dates">${dateRange(thisStart)}</div>
+ <div class="contact"><span>☎ <a href="${escapeHTML(whatsappUrl(person.phone))}" target="_blank" rel="noopener noreferrer">${escapeHTML(person.phone||"Telefone não cadastrado")} (WhatsApp)</a></span>
+ <span>✉ ${person.email?`<a href="${escapeHTML(gmailUrl(person.email))}" target="_blank" rel="noopener noreferrer">${escapeHTML(person.email)} (Gmail)</a>`:"E-mail não cadastrado"}</span></div></div></div>`;
+ const cards=[];
+ for(let i=1;i<=3;i++){const n=idx+i,p=people[n%people.length],s=new Date(start);s.setDate(s.getDate()+n*7);const e=new Date(s);e.setDate(e.getDate()+7);
+ cards.push(`<article class="card"><img src="${escapeHTML(avatarUrl(p))}" alt="Foto de ${escapeHTML(p.name)}" onerror="this.style.visibility='hidden'"><div><h3>${escapeHTML(p.name)}</h3>
+ <p>☎ ${p.phone?`<a href="${escapeHTML(whatsappUrl(p.phone))}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.phone)} (WhatsApp)</a>`:"Telefone não cadastrado"}</p>
+ <p>✉ ${p.email?`<a href="${escapeHTML(gmailUrl(p.email))}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.email)} (Gmail)</a>`:"E-mail não cadastrado"}</p>
+ <div class="week">${formatDate(s)} → ${formatDate(e)}</div></div></article>`);}
+ document.getElementById("upcoming").innerHTML=cards.join("");
+ const tiPerson=tiPeople[idx%tiPeople.length],nextTi=tiPeople[(idx+1)%tiPeople.length];
+ document.getElementById("currentTI").innerHTML=`<div class="card"><img src="${escapeHTML(avatarUrl(tiPerson))}" alt="Foto de ${escapeHTML(tiPerson.name)}" style="width:80px;height:80px;flex-basis:80px" onerror="this.style.visibility='hidden'"><div>
+ <span class="pill">● Plantonista de TI</span><h3>${escapeHTML(tiPerson.name)}</h3>
+ <p>☎ ${tiPerson.phone?`<a href="${escapeHTML(whatsappUrl(tiPerson.phone))}" target="_blank" rel="noopener noreferrer">${escapeHTML(tiPerson.phone)} (WhatsApp)</a>`:"Telefone não cadastrado"}</p>
+ <p>✉ ${tiPerson.email?`<a href="${escapeHTML(gmailUrl(tiPerson.email))}" target="_blank" rel="noopener noreferrer">${escapeHTML(tiPerson.email)} (Gmail)</a>`:"E-mail não cadastrado"}</p><p>${dateRange(thisStart)}</p></div></div>`;
+ document.getElementById("nextTI").textContent="Próxima semana: "+nextTi.name+" · "+(nextTi.phone||"Telefone não cadastrado");
+ document.getElementById("startDate").value=state.startDate;
+}
+function renderForms(){document.getElementById("peopleForms").innerHTML=state.people.map((p,i)=>`<div class="person-form"><div class="person-title"><strong>Técnico ${i+1}</strong></div><div class="person-fields"><form onsubmit="return false">
+ <div class="field"><label for="name${i}">Nome completo</label><input id="name${i}" value="${escapeHTML(p.name)}" placeholder="Nome do técnico" required></div>
+ <div class="field"><label for="phone${i}">Telefone</label><input id="phone${i}" type="tel" value="${escapeHTML(p.phone)}" placeholder="(19) 99999-9999"></div>
+ <div class="field"><label for="email${i}">E-mail</label><input id="email${i}" type="email" value="${escapeHTML(p.email)}" placeholder="nome@empresa.com.br"></div>
+ <div class="field"><label for="photo${i}">Caminho ou link da foto</label><input id="photo${i}" value="${escapeHTML(p.photo)}" placeholder="fotos/nome-da-foto.png"></div></form></div></div>`).join("");}
+function renderTIForms(){document.getElementById("tiPeopleForms").innerHTML=tiPeople.map((p,i)=>`<div class="person-form"><div class="person-title"><strong>Técnico de TI ${i+1}</strong></div><form onsubmit="return false">
+ <div class="field"><label for="tiName${i}">Nome</label><input id="tiName${i}" value="${escapeHTML(p.name)}" required></div>
+ <div class="field"><label for="tiPhone${i}">Telefone</label><input id="tiPhone${i}" type="tel" value="${escapeHTML(p.phone)}"></div>
+ <div class="field"><label for="tiEmail${i}">E-mail</label><input id="tiEmail${i}" type="email" value="${escapeHTML(p.email)}" placeholder="tecnico@grupomercurio.com.br"></div>
+ <div class="field"><label for="tiPhoto${i}">Caminho ou link da foto</label><input id="tiPhoto${i}" value="${escapeHTML(p.photo)}" placeholder="fotos/nome-da-foto.png"></div></form></div>`).join("");}
+document.getElementById("toggleTIConfig").addEventListener("click",()=>{const el=document.getElementById("tiConfig");el.hidden=!el.hidden;document.getElementById("toggleTIConfig").textContent=el.hidden?"Editar cadastro de TI":"Fechar edição de TI";if(!el.hidden)renderTIForms();});
+document.getElementById("saveTI").addEventListener("click",()=>{const updated=tiPeople.map((p,i)=>({name:document.getElementById("tiName"+i).value.trim(),phone:document.getElementById("tiPhone"+i).value.trim(),email:document.getElementById("tiEmail"+i).value.trim(),photo:document.getElementById("tiPhoto"+i).value.trim()}));
+ if(updated.some(p=>!p.name)){alert("Preencha o nome dos dois técnicos de TI.");return;}
+ if(updated.some(p=>p.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email))){alert("Confira os endereços de e-mail informados.");return;}
+ if(!saveJSON(TI_STORAGE_KEY,updated))return;tiPeople=updated;render();alert("Cadastro de TI salvo neste navegador.");});
+document.getElementById("resetTI").addEventListener("click",()=>{if(confirm("Restaurar os dados originais dos técnicos de TI?")){const defaults=clonePeople(DEFAULT_TI_PEOPLE);if(!saveJSON(TI_STORAGE_KEY,defaults))return;tiPeople=defaults;renderTIForms();render();alert("Dados de TI restaurados.");}});
+document.getElementById("toggleConfig").addEventListener("click",()=>{const el=document.getElementById("config");el.hidden=!el.hidden;document.getElementById("toggleConfig").textContent=el.hidden?"Editar cadastro":"Fechar edição";if(!el.hidden)renderForms();});
+document.getElementById("save").addEventListener("click",()=>{
+ const startDate=document.getElementById("startDate").value;if(!startDate){alert("Escolha a segunda-feira inicial.");return;}
+ const start=parseDate(startDate);if(start.getFullYear()!==Number(startDate.slice(0,4))||start.getMonth()!==Number(startDate.slice(5,7))-1||start.getDate()!==Number(startDate.slice(8,10))){alert("Informe uma data válida.");return;}
+ if(start.getDay()!==1){alert("A data inicial precisa ser uma segunda-feira.");return;}
+ const people=state.people.map((p,i)=>({name:document.getElementById("name"+i).value.trim(),phone:document.getElementById("phone"+i).value.trim(),email:document.getElementById("email"+i).value.trim(),photo:document.getElementById("photo"+i).value.trim()}));
+ if(people.some(p=>!p.name)){alert("Preencha o nome dos quatro técnicos.");return;}
+ if(people.some(p=>p.email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email))){alert("Confira os endereços de e-mail informados.");return;}
+ const updatedState={startDate,people};if(!saveJSON(STORAGE_KEY,updatedState))return;saveJSON(OLD_STORAGE_KEY,updatedState);state=updatedState;render();renderForms();alert("Escala salva neste navegador.");});
+document.getElementById("reset").addEventListener("click",()=>{if(confirm("Restaurar os quatro técnicos de exemplo? Isso substituirá os dados salvos neste navegador.")){const defaults={startDate:defaultStart,people:clonePeople(DEFAULT_PEOPLE)};if(!saveJSON(STORAGE_KEY,defaults))return;saveJSON(OLD_STORAGE_KEY,defaults);state=defaults;render();renderForms();alert("Escala de exemplo restaurada.");}});
+render();
+</script>
+</body>
+</html>
